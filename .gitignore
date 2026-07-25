@@ -1,3 +1,4 @@
 build/
 cmake-build-*/
 videos.json
+vcpkg_installed/
