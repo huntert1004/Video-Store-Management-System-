@@ -32,39 +32,19 @@ HomePage::HomePage(QWidget *parent)
                                             "Year",
                                             "Copies"});
 
-    tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-    vector<VideoStruct> videos = Video::getVideos();
-    // set size of table
-    tableWidget->setRowCount(static_cast<int>(videos.size()));
-    // dynamicly set data in table 
-    for (int i = 0; i < static_cast<int>(videos.size()); i++)
-    {
-        tableWidget->setItem(
-            i,
-            0,
-            new QTableWidgetItem(
-                QString::fromStdString(videos[i].title)));
+    tableWidget
+        ->horizontalHeader()
+        ->setSectionResizeMode(QHeaderView::Stretch);
 
-        tableWidget->setItem(
-            i,
-            1,
-            new QTableWidgetItem(
-                QString::fromStdString(videos[i].genre)));
+    tableWidget->setEditTriggers(
+        QAbstractItemView::NoEditTriggers
+    );
 
-        tableWidget->setItem(
-            i,
-            2,
-            new QTableWidgetItem(
-                QString::number(videos[i].year)));
+    tableWidget->setSelectionBehavior(
+        QAbstractItemView::SelectRows
+    );
 
-        tableWidget->setItem(
-            i,
-            3,
-            new QTableWidgetItem(
-                QString::number(videos[i].copies_available)));
-
-       
-    }
+    refreshTable();
 
     // Button row
     QHBoxLayout *buttonLayout = new QHBoxLayout();
@@ -87,9 +67,59 @@ HomePage::HomePage(QWidget *parent)
 
     setLayout(layout);
 }
+
+void HomePage::refreshTable()
+{
+    std::vector<VideoStruct> videos = Video::getVideos();
+
+    tableWidget->clearContents();
+
+    tableWidget->setRowCount(
+        static_cast<int>(videos.size())
+    );
+
+    for (int i = 0; i < static_cast<int>(videos.size()); i++)
+    {
+        tableWidget->setItem(
+            i,
+            0,
+            new QTableWidgetItem(
+                QString::fromStdString(videos[i].title)
+            )
+        );
+
+        tableWidget->setItem(
+            i,
+            1,
+            new QTableWidgetItem(
+                QString::fromStdString(videos[i].genre)
+            )
+        );
+
+        tableWidget->setItem(
+            i,
+            2,
+            new QTableWidgetItem(
+                QString::number(videos[i].year)
+            )
+        );
+
+        tableWidget->setItem(
+            i,
+            3,
+            new QTableWidgetItem(
+                QString::number(videos[i].copies_available)
+            )
+        );
+    }
+}
+
 //ADDED BY ANGEL
 void HomePage::openAddVideoPage()
 {
     AddVideoPage page(this);
     page.exec();
+    //page executes user program waits for window to close then runs refresh
+
+    refreshTable();
 }

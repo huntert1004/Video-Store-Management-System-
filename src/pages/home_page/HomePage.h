@@ -22,13 +22,15 @@ private slots:
 private:
     QLabel *titleLabel;
     QLabel *welcomeLabel;
-    //ADDED BY ANGEL
+    
     void loadVideos();
+    void refreshTable();
 
     QPushButton *addVideoButton;
     QPushButton *rentVideoButton;
     QPushButton *returnVideoButton;
     QTableWidget *tableWidget;
+    
 };
 
 #endif

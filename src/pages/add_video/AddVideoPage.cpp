@@ -85,4 +85,6 @@ void AddVideoPage::saveVideo()
     video.save();
 
     accept();
+
+    
 }

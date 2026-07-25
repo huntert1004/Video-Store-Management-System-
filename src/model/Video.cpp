@@ -92,7 +92,7 @@ public:
     {
         vector<VideoStruct> videos;
 
-        ifstream input("videos.json");
+        ifstream input("database/videos.json");
 
         if (!input.is_open())
         {
