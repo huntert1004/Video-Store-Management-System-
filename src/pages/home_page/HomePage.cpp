@@ -18,6 +18,10 @@ HomePage::HomePage(QWidget *parent)
     addVideoButton = new QPushButton("Add Video");
     rentVideoButton = new QPushButton("Rent Video");
     returnVideoButton = new QPushButton("Return Video");
+    connect(addVideoButton,
+        &QPushButton::clicked,
+        this,
+        &HomePage::openAddVideoPage);
 
     // Create table
     tableWidget = new QTableWidget(this);
@@ -82,4 +86,10 @@ HomePage::HomePage(QWidget *parent)
     
 
     setLayout(layout);
+}
+//ADDED BY ANGEL
+void HomePage::openAddVideoPage()
+{
+    AddVideoPage page(this);
+    page.exec();
 }

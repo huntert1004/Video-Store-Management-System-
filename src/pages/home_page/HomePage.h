@@ -2,6 +2,7 @@
 #define HOMEPAGE_H
 
 #include <QWidget>
+#include "../add_video/AddVideoPage.h"
 
 class QPushButton;
 class QLabel;
@@ -15,9 +16,14 @@ class HomePage : public QWidget
 public:
     explicit HomePage(QWidget *parent = nullptr);
 
+private slots:
+    void openAddVideoPage();
+
 private:
     QLabel *titleLabel;
     QLabel *welcomeLabel;
+    //ADDED BY ANGEL
+    void loadVideos();
 
     QPushButton *addVideoButton;
     QPushButton *rentVideoButton;
