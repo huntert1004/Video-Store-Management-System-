@@ -83,3 +83,11 @@ HomePage::HomePage(QWidget *parent)
 
     setLayout(layout);
 }
+
+//ADDED BY ALEXA
+void HomePage::openSearchVideoPage()
+{
+    SearchVideoPage page(this);
+    page.exec();
+
+}
