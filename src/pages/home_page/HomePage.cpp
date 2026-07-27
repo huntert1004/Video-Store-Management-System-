@@ -23,6 +23,18 @@ HomePage::HomePage(QWidget *parent)
         this,
         &HomePage::openAddVideoPage);
 
+    //ADDED BY ETHAN for the rent video
+    connect(rentVideoButton,
+        &QPushButton::clicked,
+        this,
+        &HomePage::openRentVideoPage);
+
+    //ADDED BY ETHAN for the return video
+    connect(returnVideoButton,
+        &QPushButton::clicked,
+        this,
+        &HomePage::openReturnVideoPage);
+
     // Create table
     tableWidget = new QTableWidget(this);
     tableWidget->setColumnCount(4);
@@ -118,6 +130,26 @@ void HomePage::refreshTable()
 void HomePage::openAddVideoPage()
 {
     AddVideoPage page(this);
+    page.exec();
+    //page executes user program waits for window to close then runs refresh
+
+    refreshTable();
+}
+
+//ADDED BY ETHAN
+void HomePage::openRentVideoPage()
+{
+    RentVideoPage page(this);
+    page.exec();
+    //page executes user program waits for window to close then runs refresh
+
+    refreshTable();
+}
+
+//ADDED BY ETHAN
+void HomePage::openReturnVideoPage()
+{
+    ReturnVideoPage page(this);
     page.exec();
     //page executes user program waits for window to close then runs refresh
 

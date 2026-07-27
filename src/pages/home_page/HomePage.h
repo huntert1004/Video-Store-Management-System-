@@ -3,6 +3,8 @@
 
 #include <QWidget>
 #include "../add_video/AddVideoPage.h"
+#include "../rent_video/RentVideoPage.h"
+#include "../return_video/ReturnVideoPage.h"
 
 class QPushButton;
 class QLabel;
@@ -18,6 +20,8 @@ public:
 
 private slots:
     void openAddVideoPage();
+    void openRentVideoPage();
+    void openReturnVideoPage();
 
 private:
     QLabel *titleLabel;
