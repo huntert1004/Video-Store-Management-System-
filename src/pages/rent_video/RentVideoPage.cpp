@@ -1,6 +1,6 @@
 #include "RentVideoPage.h"
 #include "../../model/Video.cpp"
-#include "../../model/Rental.cpp"
+
 //^^ADDED BY ETHAN
 
 #include <QLabel>
@@ -92,7 +92,7 @@ void RentVideoPage::rentVideo()
     string title = titleBox->currentText().toStdString();
 
     // The model does the real work and hands back a message
-    string result = Rental::rentVideo(title);
+    string result = Video::rentVideo(title);
 
     // Show that message in the window so the user can see what happened
     statusLabel->setText(QString::fromStdString(result));
