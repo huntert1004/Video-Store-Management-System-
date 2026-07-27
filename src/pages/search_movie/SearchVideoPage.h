@@ -1,5 +1,5 @@
 #ifndef SEARCHVIDEOPAGE_H
-#define SERACHVIDEOPAGE_H
+#define SEARCHVIDEOPAGE_H
 
 #include <QDialog>
 
@@ -13,7 +13,7 @@ class SearchVideoPage : public QDialog
     Q_OBJECT
 
 public:
-    explicit SearchVideoPage(QWidget *parent = nullptr);\
+    explicit SearchVideoPage(QWidget *parent = nullptr);
 
 private slots:
     void searchVideo(); //this runs when the search button is clicked

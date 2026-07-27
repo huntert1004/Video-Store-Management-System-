@@ -1,55 +1,168 @@
 # Video Database
 
-A cross-platform desktop application built with **C++**, **Qt 6 Widgets**, and **nlohmann/json**. The application allows users to manage a video inventory through a graphical interface, with all video data stored locally in a JSON file.
+A cross-platform desktop application built with **C++**, **Qt 6 Widgets**, and **nlohmann/json**.
 
-The project uses **CMake** for building and **FetchContent** to automatically download the **nlohmann/json** library during the first build.
+The application provides a graphical interface for managing a video inventory. Video information is stored locally in a JSON file.
+
+The project uses **CMake** to configure and build the application on Windows, Linux, and macOS.
 
 ---
 
 # Features
 
-* Cross-platform (Windows, Linux, and macOS)
-* Desktop GUI built with Qt Widgets
+* Cross-platform support for Windows, Linux, and macOS
+* Desktop interface built with Qt 6 Widgets
 * Local JSON data storage
+* Video inventory display
+* Add, rent, and return video functionality
 * C++17
 * CMake build system
-* Automatic download of the JSON library
 
 ---
 
 # Requirements
 
-## Required Software
+The following software and libraries must be installed before building the project:
 
-* CMake 3.16 or newer
-* A C++17 compatible compiler
-
-  * GCC
-  * Clang
-  * MSVC (Visual Studio 2022 or newer)
 * Git
-* Internet connection (only required the first build to download the JSON library)
+* CMake 3.16 or newer
+* A C++17-compatible compiler
+* Qt 6 with the Widgets component
+* nlohmann/json
 
-## Qt 6
+Supported compilers include:
 
-This project uses **Qt 6 Widgets**.
+* GCC
+* Clang
+* MSVC
+* MinGW
 
-Qt must be installed before building the project.
+CMake does not download either dependency. Qt 6 and nlohmann/json must already be installed on the computer.
 
-### Linux (Ubuntu / Pop!_OS)
+---
+
+# Install Dependencies
+
+## Linux — Ubuntu or Pop!_OS
+
+Install the compiler, CMake, Qt 6, OpenGL development files, and nlohmann/json:
 
 ```bash
 sudo apt update
-sudo apt install qt6-base-dev qt6-base-dev-tools libgl1-mesa-dev
+
+sudo apt install \
+    build-essential \
+    cmake \
+    git \
+    qt6-base-dev \
+    qt6-base-dev-tools \
+    libgl1-mesa-dev \
+    nlohmann-json3-dev
 ```
 
-### Windows
+After installation, CMake should be able to locate both Qt 6 and nlohmann/json automatically.
 
-Install **Qt 6** using the Qt Online Installer or another supported package manager.
+---
 
-### macOS
+## Windows
 
-Install **Qt 6** using the Qt Online Installer or Homebrew.
+### 1. Install a C++ compiler
+
+Install one of the following:
+
+* Visual Studio 2022 with **Desktop development with C++**
+* MinGW through the Qt installer
+
+### 2. Install Qt 6
+
+Download and run the Qt Online Installer.
+
+During installation, select a Qt kit that matches your compiler.
+
+Examples:
+
+```text
+MSVC 2022 64-bit
+```
+
+or:
+
+```text
+MinGW 64-bit
+```
+
+Do not mix compiler types.
+
+For example:
+
+* Qt MSVC must be built with Visual Studio
+* Qt MinGW must be built with MinGW
+
+### 3. Install nlohmann/json
+
+One Windows option is vcpkg.
+
+Clone and prepare vcpkg:
+
+```powershell
+git clone https://github.com/microsoft/vcpkg.git C:\vcpkg
+cd C:\vcpkg
+.\bootstrap-vcpkg.bat
+```
+
+Install nlohmann/json:
+
+```powershell
+.\vcpkg install nlohmann-json:x64-windows
+```
+
+When configuring the project, provide the vcpkg toolchain file:
+
+```powershell
+cmake -S . -B build `
+  -DCMAKE_TOOLCHAIN_FILE="C:\vcpkg\scripts\buildsystems\vcpkg.cmake"
+```
+
+CMake may also need the location of Qt:
+
+```powershell
+cmake -S . -B build `
+  -DCMAKE_TOOLCHAIN_FILE="C:\vcpkg\scripts\buildsystems\vcpkg.cmake" `
+  -DCMAKE_PREFIX_PATH="C:\Qt\6.x.x\msvc2022_64"
+```
+
+Replace the Qt path with the actual Qt version and kit installed on the computer.
+
+For example:
+
+```text
+C:\Qt\6.8.3\msvc2022_64
+```
+
+When using MinGW, the path may look similar to:
+
+```text
+C:\Qt\6.8.3\mingw_64
+```
+
+---
+
+## macOS
+
+Install Homebrew if it is not already installed.
+
+Then install CMake, Qt 6, and nlohmann/json:
+
+```bash
+brew install cmake qt nlohmann-json
+```
+
+CMake may need the Qt installation path:
+
+```bash
+cmake -S . -B build \
+  -DCMAKE_PREFIX_PATH="$(brew --prefix qt)"
+```
 
 ---
 
@@ -57,53 +170,126 @@ Install **Qt 6** using the Qt Online Installer or Homebrew.
 
 ```bash
 git clone https://github.com/<your-username>/Video-Store-Management-System-.git
-cd VideoDatabase
+cd Video-Store-Management-System-
 ```
 
-Replace `<your-username>` with your GitHub username.
+Replace `<your-username>` with the GitHub username or organization that owns the repository.
 
 ---
 
 # Build the Project
 
-From the project root directory:
+## Linux
+
+From the root project directory:
 
 ```bash
 cmake -S . -B build
 cmake --build build
 ```
 
-During the first build, CMake automatically downloads the **nlohmann/json** library.
+---
+
+## Windows with Visual Studio
+
+Configure the project:
+
+```powershell
+cmake -S . -B build `
+  -DCMAKE_TOOLCHAIN_FILE="C:\vcpkg\scripts\buildsystems\vcpkg.cmake" `
+  -DCMAKE_PREFIX_PATH="C:\Qt\6.x.x\msvc2022_64"
+```
+
+Build the project:
+
+```powershell
+cmake --build build --config Debug
+```
+
+Replace the Qt path with the actual installation path.
+
+---
+
+## Windows with MinGW
+
+Open the Qt MinGW terminal or ensure MinGW is available in the system PATH.
+
+Configure the project:
+
+```powershell
+cmake -S . -B build `
+  -G "MinGW Makefiles" `
+  -DCMAKE_PREFIX_PATH="C:\Qt\6.x.x\mingw_64"
+```
+
+Build the project:
+
+```powershell
+cmake --build build
+```
+
+The installed nlohmann/json package must also be available to CMake.
+
+---
+
+## macOS
+
+```bash
+cmake -S . -B build \
+  -DCMAKE_PREFIX_PATH="$(brew --prefix qt)"
+
+cmake --build build
+```
 
 ---
 
 # Run the Application
 
-## Windows
+The application should be run from the root project directory so it can locate:
 
-Visual Studio Generator
-
-```bash
-.\build\Debug\VideoDatabase.exe
+```text
+database/videos.json
 ```
 
-Ninja or another single-configuration generator
-
-```bash
-.\build\VideoDatabase.exe
-```
-
-## Linux / macOS
+## Linux
 
 ```bash
 ./build/VideoDatabase
+```
+
+## macOS
+
+```bash
+./build/VideoDatabase
+```
+
+## Windows with Visual Studio
+
+Debug build:
+
+```powershell
+.\build\Debug\VideoDatabase.exe
+```
+
+Release build:
+
+```powershell
+.\build\Release\VideoDatabase.exe
+```
+
+## Windows with MinGW
+
+```powershell
+.\build\VideoDatabase.exe
 ```
 
 ---
 
 # Clean Rebuild
 
-If you need to completely rebuild the project:
+A clean rebuild removes old CMake configuration files and recompiles the application.
+
+## Linux or macOS
 
 ```bash
 rm -rf build
@@ -112,16 +298,23 @@ cmake -S . -B build
 cmake --build build
 ```
 
-On Windows, simply delete the `build` folder and run the build commands again.
+## Windows PowerShell
+
+```powershell
+Remove-Item -Recurse -Force build
+
+cmake -S . -B build
+cmake --build build --config Debug
+```
+
+Remember to include the Qt or vcpkg paths during configuration when they are required.
 
 ---
 
 # Project Structure
 
-The project is organized so that each directory has a single responsibility.
-
-```
-VideoDatabase
+```text
+Video-Store-Management-System-
 │
 ├── database/
 │   └── videos.json
@@ -139,78 +332,230 @@ VideoDatabase
 └── README.md
 ```
 
-## src/main.cpp
+Each directory has a specific responsibility.
+
+---
+
+## `src/main.cpp`
 
 This is the entry point of the application.
 
-It creates the `QApplication` object, initializes the program, creates the main application window, and starts the Qt event loop.
+It:
 
-Think of this as the starting point of the entire application.
+* Creates the Qt `QApplication` object
+* Creates the initial application window
+* Displays the application
+* Starts the Qt event loop
 
----
-
-## src/model/
-
-The **model** directory contains the classes responsible for managing application data.
-
-These classes:
-
-* Read data from `database/videos.json`
-* Save new videos
-* Update existing videos
-* Remove videos
-* Convert between C++ objects and JSON
-
-The model layer is the **only** part of the application that interacts directly with the JSON database.
+The program begins execution from this file.
 
 ---
 
-## src/pages/
+## `src/model/`
 
-The **pages** directory contains the primary content displayed inside the application.
+The `model` directory contains classes that work with application data.
 
-Each page represents a different screen or view of the program.
+The model classes are responsible for:
+
+* Reading video data
+* Saving new videos
+* Updating videos
+* Removing videos
+* Converting C++ objects to JSON
+* Converting JSON into C++ objects
+
+The model directory is the only part of the project that should directly interact with:
+
+```text
+database/videos.json
+```
+
+Pages and windows should call model methods instead of reading or writing the JSON file directly.
+
+---
+
+## `src/pages/`
+
+The `pages` directory contains the main content displayed to the user.
+
+Each directory inside `pages` represents a separate page or feature.
 
 Examples include:
 
-* Home Page
-* Add Video Page
-* Rent Video Page
-* Return Video Page
-* Inventory Page
+```text
+pages/
+├── home_page/
+├── add_video_page/
+├── rent_video_page/
+└── return_video_page/
+```
 
-Pages are responsible for displaying information and handling user interaction.
+Pages are responsible for:
 
----
+* Creating page layouts
+* Displaying application data
+* Providing buttons, forms, tables, and labels
+* Handling user interaction
+* Calling model methods when data needs to be read or changed
 
-## src/windows/
-
-The **windows** directory contains the application's top-level windows.
-
-These classes manage:
-
-* Window creation
-* Navigation between pages
-* Overall application layout
-* Window-specific behavior
-
-A window acts as a container that displays one or more pages.
+Pages should not directly edit the JSON database.
 
 ---
 
-## database/videos.json
+## `src/windows/`
 
-This file serves as the application's database.
+The `windows` directory contains the application's top-level windows.
 
-All video information is stored in JSON format, including:
+Window classes are responsible for:
+
+* Creating application windows
+* Displaying pages
+* Managing navigation
+* Controlling the overall application layout
+* Opening dialogs or additional windows
+
+A window acts as the container for one or more pages.
+
+---
+
+## `database/videos.json`
+
+This file acts as the application's local database.
+
+It stores video information such as:
 
 * Title
 * Genre
 * Release year
-* Available copies
-* Availability status
+* Number of available copies
 
-The file is automatically created or updated by the application as videos are added or modified.
+Example:
+
+```json
+[
+    {
+        "title": "The Matrix",
+        "genre": "Science Fiction",
+        "year": 1999,
+        "copies_available": 4
+    }
+]
+```
+
+The model classes read from and write to this file.
+
+The application should be launched from the project root so the relative path remains:
+
+```text
+database/videos.json
+```
+
+---
+
+# CMake Configuration
+
+The project uses these manually installed dependencies:
+
+```cmake
+find_package(Qt6 REQUIRED COMPONENTS Widgets)
+find_package(nlohmann_json CONFIG REQUIRED)
+```
+
+The application links them using:
+
+```cmake
+target_link_libraries(
+    VideoDatabase
+    PRIVATE
+        Qt6::Widgets
+        nlohmann_json::nlohmann_json
+)
+```
+
+If CMake reports that it cannot find Qt or nlohmann/json, the dependency is either:
+
+* Not installed
+* Installed for a different compiler
+* Not included in CMake's search paths
+
+---
+
+# Common Errors
+
+## Qt 6 could not be found
+
+Example:
+
+```text
+Could not find Qt6Config.cmake
+```
+
+Provide the Qt installation path:
+
+```bash
+cmake -S . -B build -DCMAKE_PREFIX_PATH="/path/to/Qt"
+```
+
+On Windows:
+
+```powershell
+cmake -S . -B build `
+  -DCMAKE_PREFIX_PATH="C:\Qt\6.x.x\msvc2022_64"
+```
+
+---
+
+## nlohmann/json could not be found
+
+Example:
+
+```text
+Could not find nlohmann_jsonConfig.cmake
+```
+
+Confirm that the development package is installed.
+
+On Ubuntu or Pop!_OS:
+
+```bash
+sudo apt install nlohmann-json3-dev
+```
+
+On macOS:
+
+```bash
+brew install nlohmann-json
+```
+
+On Windows with vcpkg:
+
+```powershell
+C:\vcpkg\vcpkg install nlohmann-json:x64-windows
+```
+
+Then configure CMake using the vcpkg toolchain file.
+
+---
+
+## Could not open `videos.json`
+
+Run the program from the project root:
+
+```bash
+./build/VideoDatabase
+```
+
+Confirm that the file exists:
+
+```text
+database/videos.json
+```
+
+The file should contain at least an empty JSON array:
+
+```json
+[]
+```
 
 ---
 
@@ -226,11 +571,14 @@ The file is automatically created or updated by the application as videos are ad
 
 # Notes
 
-* The project uses the C++17 standard.
-* `nlohmann/json` is downloaded automatically during the first build.
-* Qt 6 must already be installed on the system.
-* Video information is stored locally in `database/videos.json`.
-* The application does not require a traditional SQL database.
+* Qt 6 must be installed manually.
+* nlohmann/json must be installed manually.
+* CMake does not download either library.
+* The installed Qt kit must match the compiler being used.
+* Video data is stored locally in `database/videos.json`.
+* The application does not require an SQL database.
+* Build files should remain inside the `build` directory.
+* The `build` directory should not be committed to Git.
 
 ---
 

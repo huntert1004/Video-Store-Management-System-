@@ -18,7 +18,28 @@ HomePage::HomePage(QWidget *parent)
     addVideoButton = new QPushButton("Add Video");
     rentVideoButton = new QPushButton("Rent Video");
     returnVideoButton = new QPushButton("Return Video");
+    searchVideoButton = new QPushButton("Search Titles");
+    connect(addVideoButton,
+        &QPushButton::clicked,
+        this,
+        &HomePage::openAddVideoPage);
 
+    //ADDED BY ETHAN for the rent video
+    connect(rentVideoButton,
+        &QPushButton::clicked,
+        this,
+        &HomePage::openRentVideoPage);
+
+    //ADDED BY ETHAN for the return video
+    connect(returnVideoButton,
+        &QPushButton::clicked,
+        this,
+        &HomePage::openReturnVideoPage);
+
+    connect(searchVideoButton,
+        &QPushButton::clicked,
+        this,
+        &HomePage::openSearchVideoPage);
     // Create table
     tableWidget = new QTableWidget(this);
     tableWidget->setColumnCount(4);
@@ -28,45 +49,26 @@ HomePage::HomePage(QWidget *parent)
                                             "Year",
                                             "Copies"});
 
-    tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-    vector<VideoStruct> videos = Video::getVideos();
-    // set size of table
-    tableWidget->setRowCount(static_cast<int>(videos.size()));
-    // dynamicly set data in table 
-    for (int i = 0; i < static_cast<int>(videos.size()); i++)
-    {
-        tableWidget->setItem(
-            i,
-            0,
-            new QTableWidgetItem(
-                QString::fromStdString(videos[i].title)));
+    tableWidget
+        ->horizontalHeader()
+        ->setSectionResizeMode(QHeaderView::Stretch);
 
-        tableWidget->setItem(
-            i,
-            1,
-            new QTableWidgetItem(
-                QString::fromStdString(videos[i].genre)));
+    tableWidget->setEditTriggers(
+        QAbstractItemView::NoEditTriggers
+    );
 
-        tableWidget->setItem(
-            i,
-            2,
-            new QTableWidgetItem(
-                QString::number(videos[i].year)));
+    tableWidget->setSelectionBehavior(
+        QAbstractItemView::SelectRows
+    );
 
-        tableWidget->setItem(
-            i,
-            3,
-            new QTableWidgetItem(
-                QString::number(videos[i].copies_available)));
-
-       
-    }
+    refreshTable();
 
     // Button row
     QHBoxLayout *buttonLayout = new QHBoxLayout();
     buttonLayout->addWidget(addVideoButton);
     buttonLayout->addWidget(rentVideoButton);
     buttonLayout->addWidget(returnVideoButton);
+    buttonLayout->addWidget(searchVideoButton);
     buttonLayout->addStretch(); // Push buttons to the left
 
     // Main layout
@@ -89,5 +91,79 @@ void HomePage::openSearchVideoPage()
 {
     SearchVideoPage page(this);
     page.exec();
+}
+void HomePage::refreshTable()
+{
+    std::vector<VideoStruct> videos = Video::getVideos();
 
+    tableWidget->clearContents();
+
+    tableWidget->setRowCount(
+        static_cast<int>(videos.size())
+    );
+
+    for (int i = 0; i < static_cast<int>(videos.size()); i++)
+    {
+        tableWidget->setItem(
+            i,
+            0,
+            new QTableWidgetItem(
+                QString::fromStdString(videos[i].title)
+            )
+        );
+
+        tableWidget->setItem(
+            i,
+            1,
+            new QTableWidgetItem(
+                QString::fromStdString(videos[i].genre)
+            )
+        );
+
+        tableWidget->setItem(
+            i,
+            2,
+            new QTableWidgetItem(
+                QString::number(videos[i].year)
+            )
+        );
+
+        tableWidget->setItem(
+            i,
+            3,
+            new QTableWidgetItem(
+                QString::number(videos[i].copies_available)
+            )
+        );
+    }
+}
+
+//ADDED BY ANGEL
+void HomePage::openAddVideoPage()
+{
+    AddVideoPage page(this);
+    page.exec();
+    //page executes user program waits for window to close then runs refresh
+
+    refreshTable();
+}
+
+//ADDED BY ETHAN
+void HomePage::openRentVideoPage()
+{
+    RentVideoPage page(this);
+    page.exec();
+    //page executes user program waits for window to close then runs refresh
+
+    refreshTable();
+}
+
+//ADDED BY ETHAN
+void HomePage::openReturnVideoPage()
+{
+    ReturnVideoPage page(this);
+    page.exec();
+    //page executes user program waits for window to close then runs refresh
+
+    refreshTable();
 }
