@@ -5,6 +5,13 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
     homePage = new HomePage(this);
+    this->setStyleSheet(
+        "QDialog {"
+        "    background-color: #39528B;"
+        "}"
+        "QMainWindow {"
+        "    background-color: #000000ff;"
+        "}");
 
     setCentralWidget(homePage);
 

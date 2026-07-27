@@ -10,7 +10,7 @@
 #include <QHBoxLayout>
 
 // Builds the window. Everything here runs once, when the window opens.
-RentVideoPage::RentVideoPage(QWidget* parent)
+RentVideoPage::RentVideoPage(QWidget *parent)
     : QDialog(parent)
 {
     // Window title
@@ -40,22 +40,33 @@ RentVideoPage::RentVideoPage(QWidget* parent)
     // Buttons
     rentButton = new QPushButton("Rent");
     // connect tells Qt to run rentVideo() whenever this button is clicked
-    //ADDED BY ETHAN for the rent video
+    // ADDED BY ETHAN for the rent video
     connect(rentButton,
-        &QPushButton::clicked,
-        this,
-        &RentVideoPage::rentVideo);
+            &QPushButton::clicked,
+            this,
+            &RentVideoPage::rentVideo);
     closeButton = new QPushButton("Close");
     // reject() is built into QDialog and just closes the window
-    //ADDED BY ETHAN for rent video
+    // ADDED BY ETHAN for rent video
     connect(closeButton,
-        &QPushButton::clicked,
-        this,
-        &QDialog::reject);
+            &QPushButton::clicked,
+            this,
+            &QDialog::reject);
 
+    this->setStyleSheet(
+        "QLabel {"
+        "    color: #FEA902;"
+        "}"
+        "QPushButton {"
+        "    background-color: #0C3EA8;"
+        "    color: #FEA902;"
+        "}"
+        "QPushButton:hover {"
+        "    background-color: #39528B;"
+        "}");
     // Layout
     // QVBoxLayout stacks things top to bottom
-    QVBoxLayout* mainLayout = new QVBoxLayout(this);
+    QVBoxLayout *mainLayout = new QVBoxLayout(this);
 
     mainLayout->addWidget(titleLabel);
 
@@ -65,7 +76,7 @@ RentVideoPage::RentVideoPage(QWidget* parent)
     mainLayout->addWidget(statusLabel);
 
     // QHBoxLayout puts things side by side, so the buttons sit in a row
-    QHBoxLayout* buttonLayout = new QHBoxLayout();
+    QHBoxLayout *buttonLayout = new QHBoxLayout();
     buttonLayout->addWidget(rentButton);
     buttonLayout->addWidget(closeButton);
 

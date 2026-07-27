@@ -21,6 +21,7 @@ ReturnVideoPage::ReturnVideoPage(QWidget* parent)
     // Starts empty, we fill it in after the user clicks Return
     statusLabel = new QLabel("");
 
+    
     // Input fields
     titleBox = new QComboBox();
 
@@ -38,6 +39,7 @@ ReturnVideoPage::ReturnVideoPage(QWidget* parent)
 
     // Buttons
     returnButton = new QPushButton("Return");
+    
     // connect tells Qt to run returnVideo() whenever this button is clicked
     //ADDED BY ETHAN for the return video
     connect(returnButton,
@@ -52,6 +54,17 @@ ReturnVideoPage::ReturnVideoPage(QWidget* parent)
         this,
         &QDialog::reject);
 
+    this->setStyleSheet(
+        "QLabel {"
+        "    color: #FEA902;"
+        "}"
+        "QPushButton {"
+        "    background-color: #0C3EA8;"
+        "    color: #FEA902;"
+        "}"
+        "QPushButton:hover {"
+        "    background-color: #39528B;"
+        "}");
     // Layout
     // QVBoxLayout stacks things top to bottom
     QVBoxLayout* mainLayout = new QVBoxLayout(this);

@@ -9,7 +9,7 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 
-AddVideoPage::AddVideoPage(QWidget* parent)
+AddVideoPage::AddVideoPage(QWidget *parent)
     : QDialog(parent)
 {
     // Window title
@@ -20,7 +20,6 @@ AddVideoPage::AddVideoPage(QWidget* parent)
     genreLabel = new QLabel("Genre:");
     yearLabel = new QLabel("Year:");
     copiesLabel = new QLabel("Copies Available:");
-
     // Input fields
     titleEdit = new QLineEdit();
     genreEdit = new QLineEdit();
@@ -33,20 +32,31 @@ AddVideoPage::AddVideoPage(QWidget* parent)
 
     // Buttons
     saveButton = new QPushButton("Save");
-    //ADDED BY ANGEL for the add video
+    // ADDED BY ANGEL for the add video
     connect(saveButton,
-        &QPushButton::clicked,
-        this,
-        &AddVideoPage::saveVideo);
+            &QPushButton::clicked,
+            this,
+            &AddVideoPage::saveVideo);
     cancelButton = new QPushButton("Cancel");
-    //ADDED BY ANGEL for add video
+    // ADDED BY ANGEL for add video
     connect(cancelButton,
-        &QPushButton::clicked,
-        this,
-        &QDialog::reject);
+            &QPushButton::clicked,
+            this,
+            &QDialog::reject);
 
+    this->setStyleSheet(
+        "QLabel {"
+        "    color: #FEA902;"
+        "}"
+        "QPushButton {"
+        "    background-color: #0C3EA8;"
+        "    color: #FEA902;"
+        "}"
+        "QPushButton:hover {"
+        "    background-color: #39528B;"
+        "}");
     // Layout
-    QVBoxLayout* mainLayout = new QVBoxLayout(this);
+    QVBoxLayout *mainLayout = new QVBoxLayout(this);
 
     mainLayout->addWidget(titleLabel);
 
@@ -62,7 +72,7 @@ AddVideoPage::AddVideoPage(QWidget* parent)
     mainLayout->addWidget(copiesLabel);
     mainLayout->addWidget(copiesBox);
 
-    QHBoxLayout* buttonLayout = new QHBoxLayout();
+    QHBoxLayout *buttonLayout = new QHBoxLayout();
     buttonLayout->addWidget(saveButton);
     buttonLayout->addWidget(cancelButton);
 
@@ -79,12 +89,9 @@ void AddVideoPage::saveVideo()
         titleEdit->text().toStdString(),
         genreEdit->text().toStdString(),
         yearBox->value(),
-        copiesBox->value()
-    );
+        copiesBox->value());
 
     video.save();
 
     accept();
-
-    
 }

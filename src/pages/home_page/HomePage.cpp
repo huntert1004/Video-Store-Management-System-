@@ -12,9 +12,11 @@
 HomePage::HomePage(QWidget *parent)
     : QWidget(parent)
 {
-    titleLabel = new QLabel("Video Rental System");
-    welcomeLabel = new QLabel("Welcome!");
-
+    titleLabel = new QLabel("Blockbuster Rental System");
+    titleLabel->setAlignment(Qt::AlignCenter);
+    welcomeLabel = new QLabel("Welcome Our Valued Employee!");
+    welcomeLabel->setAlignment(Qt::AlignCenter);
+    titleLabel->setObjectName("title");
     addVideoButton = new QPushButton("Add Video");
     rentVideoButton = new QPushButton("Rent Video");
     returnVideoButton = new QPushButton("Return Video");
@@ -62,24 +64,48 @@ HomePage::HomePage(QWidget *parent)
     );
 
     refreshTable();
-
+    this->setStyleSheet(
+        "QLabel {"
+        "    color: #FEA902;"
+        "    font-size: 14px;"
+        "}"
+        "QPushButton {"
+        "    background-color: #0C3EA8;"
+        "    color: #FEA902;"
+        "}"
+        "QPushButton:hover {"
+        "    background-color: #39528B;"
+        "}"
+        "QTableWidget{"
+        "    background: #0C3EA8;"
+        "    selection-background-color: #39528B;"
+        "    color: #FEA902;"
+        "}"
+        "QLabel#title {"
+        "    font-size: 20px;"
+        "    padding: 5px;"
+        "}"
+    
+    );
     // Button row
     QHBoxLayout *buttonLayout = new QHBoxLayout();
     buttonLayout->addWidget(addVideoButton);
     buttonLayout->addWidget(rentVideoButton);
     buttonLayout->addWidget(returnVideoButton);
     buttonLayout->addWidget(searchVideoButton);
-    buttonLayout->addStretch(); // Push buttons to the left
+    buttonLayout->addSpacing(10); // Push buttons to the left
+    
 
     // Main layout
     QVBoxLayout *layout = new QVBoxLayout(this);
 
     // Adding Table above buttons
-    layout->addWidget(tableWidget);
-
     layout->addWidget(titleLabel);
     layout->addWidget(welcomeLabel);
+    layout->addWidget(tableWidget);
     layout->addLayout(buttonLayout);
+
+    
 
     
 

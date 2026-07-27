@@ -37,7 +37,17 @@ SearchVideoPage::SearchVideoPage(QWidget* parent)
         this,
         &SearchVideoPage::searchVideo
     );
-
+    this->setStyleSheet(
+        "QLabel {"
+        "    color: #FEA902;"
+        "}"
+        "QPushButton {"
+        "    background-color: #0C3EA8;"
+        "    color: #FEA902;"
+        "}"
+        "QPushButton:hover {"
+        "    color: #39528B;"
+        "}");
     // Layout
     QVBoxLayout* mainLayout = new QVBoxLayout(this);
 
